@@ -50,7 +50,7 @@ public class Pet {
         ;
     }
 
-    @Test
+    @Test (priority = 2)
     public void consultarPet(){
         String petId = "1980041241";
         given()
@@ -66,6 +66,25 @@ public class Pet {
                 .body("category.name", is("dog"))
                 .body("tags.name",contains("sta"))
 ;
+
+    }
+
+    @Test
+    public void alterarPet() throws IOException {
+        String jsonBody = lerJson("db/pet2.json");
+        given()
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+        .when()
+                .put(uri)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name",is ("Spoke"))
+                .body("status", is("sold"))
+
+         ;
 
     }
 }
